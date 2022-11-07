@@ -19,7 +19,7 @@ I also trained three different types of models:
 The results of the models can be found in the same notebook. I furthremore used hyperparamter tuning to improve the 
 results of the models.
 
-I used `mlflow` to track the experiments. 
+I used [`mlflow`](https://mlflow.org) to track the experiments. 
 
 ## Scripts
 I then turned the preprocessing and training into scripts:
@@ -30,7 +30,11 @@ To test the scripts you need to first create a virtual environment and install t
 ```
 pipenv install -r requirements.txt
 ```
-Then you can run the scripts:
+Open a terminal and start the mlflow server:
+```
+mlflow ui --backend-store-uri sqlite:///mlflow.db
+```
+Then you can run the scripts in another terminal:
 ```
 pipenv run python preprocessor.py
 pipenv run python training.py
@@ -45,7 +49,7 @@ pipenv run bentoml build ./deployment
 ```
 and then running the service:
 ```
-pipenv run bentoml run diamond-price-prediction:latest
+pipenv run bentoml serve diamond-price-prediction:latest
 ```
 
 In a different terminal you can then send a request to the service:
@@ -54,11 +58,11 @@ pipenv run python service_request.py
 ```
 
 ## Docker
-I then created a docker image for the deployment.
+I then created a docker image for the deployment. Make sure you have docker installed.
 
 To build the docker image run:
 ```
-bentoml containerize diamond-price-prediction:[tag]
+pipenv run bentoml containerize diamond-price-prediction:latest
 ```
 
 To run the docker image run:
