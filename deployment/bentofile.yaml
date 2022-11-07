@@ -1,0 +1,12 @@
+service: "service.py:svc"
+labels:
+  owner: glad
+  project: diamond-prediction
+include:
+  "*.py"
+python:
+  packages:
+    - xgboost==1.7.1
+    - scikit-learn==1.0.2
+    - pandas==1.4.3
+    - mlflow==1.27.0
