@@ -29,7 +29,7 @@ def dump_pickle(obj, filename):
         return pickle.dump(obj, f_out)
 
 
-def preprocess(df: pd.DataFrame, model_path: str=None):
+def preprocess(df: pd.DataFrame):
     """Preprocess the dataframe.
     
     :param df: The dataframe to preprocess.
@@ -39,7 +39,6 @@ def preprocess(df: pd.DataFrame, model_path: str=None):
     # Compute volume of diamonds.
     df['volume'] = df['x'] * df['y'] * df['z']
 
-
     # Drop unnecessary columns
     df.drop(['x', 'y', 'z', 'depth', 'table', 'Unnamed: 0'], axis=1, inplace=True)
 
@@ -48,23 +47,25 @@ def preprocess(df: pd.DataFrame, model_path: str=None):
 
     return x, y
 
+
 def load_data(data_path: str):
     """Load the data from the data path.
     
-    :param data_path: The path to the data.
-    :return: The dataframe.
+    :param data_path: The path to the data
+    :return: The dataframe
     """
 
     df = pd.read_csv(data_path)
     return df
 
-def data_splitter(X, y, test_size: float=0.2, dest_path: str=None):
+
+def data_splitter(X, y, test_size: float = 0.2, dest_path: str = None):
     """
     Split the data into train and test.
     :param X: The data.
     :param y: The target.
-    :param df: The dataframe to split.
     :param test_size: The size of the test set.
+    :param dest_path: The path to store the data.
     """
     os.makedirs(dest_path, exist_ok=True)
 
@@ -84,15 +85,14 @@ def data_splitter(X, y, test_size: float=0.2, dest_path: str=None):
     dump_pickle((X_test, y_test), os.path.join(dest_path, "X_test.pkl"))
 
 
-def preprocessor(raw_data_path: str='./data/Diamonds_Prices2022.csv', 
-        dest_path: str='./processed_data', model_path: str='./models'):
+def preprocessor(raw_data_path: str = './data/Diamonds_Prices2022.csv', dest_path: str = './processed_data'):
     """
     Main function.
     :param raw_data_path: Path to raw data.
     :param dest_path: Path to store preprocessed data.
     """
     df = load_data(raw_data_path)
-    X, y = preprocess(df, model_path)
+    X, y = preprocess(df)
     data_splitter(X, y, dest_path=dest_path)
 
 
