@@ -8,3 +8,6 @@ Flask==2.1.2
 requests==2.26.0
 xgboost
 sklearn_features
+boto3==1.26.2
+gunicorn==20.1.0
+
