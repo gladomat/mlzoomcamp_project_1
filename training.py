@@ -112,7 +112,7 @@ def run(data_path: str, num_trials: int):
     client = MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
 
     runs = client.search_runs(
-        experiment_names=['xgb-hyperopt'],
+        experiment_ids="1",
         filter_string="metrics.rmse < 600",
         run_view_type=ViewType.ACTIVE_ONLY,
         max_results=1,
@@ -124,7 +124,6 @@ def run(data_path: str, num_trials: int):
     print(f"Best model URI: {best_model_uri}")
     
     # Save id of the best model to the bentoml repository.
-    best_model_uri = best_model_uri[7:]
     full_dir = os.path.join(os.getcwd(), best_model_uri+"/model")
     print("Importing model into bentoml repository from {}".format(full_dir))
     bento_model = bentoml.mlflow.import_model("xgb-hyperopt", full_dir)
