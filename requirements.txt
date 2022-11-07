@@ -1,0 +1,10 @@
+mlflow==1.27.0
+scikit-learn==1.0.2
+pandas==1.4.3
+seaborn==0.11.2
+hyperopt==0.2.7 
+dataclasses==0.6
+Flask==2.1.2
+requests==2.26.0
+xgboost
+sklearn_features
