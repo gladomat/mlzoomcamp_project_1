@@ -112,7 +112,7 @@ def run(data_path: str, num_trials: int):
     client = MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
 
     runs = client.search_runs(
-        experiment_names='xgb-hyperopt',
+        experiment_names=['xgb-hyperopt'],
         filter_string="metrics.rmse < 600",
         run_view_type=ViewType.ACTIVE_ONLY,
         max_results=1,
