@@ -96,7 +96,7 @@ def run(data_path: str, num_trials: int):
     }
 
     rstate = np.random.default_rng(42)  # for reproducible results
-    num_trials = 2
+
     fmin(
         fn=objective,
         space=search_space,
@@ -107,8 +107,6 @@ def run(data_path: str, num_trials: int):
     )
 
     # Search the best model by ascending order of metric score:
-    from mlflow.entities import ViewType
-
     #MLFLOW_TRACKING_URI = "http://127.0.0.1:5000"
     MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
     client = MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
@@ -128,14 +126,15 @@ def run(data_path: str, num_trials: int):
     # Save id of the best model to the bentoml repository.
     best_model_uri = best_model_uri[7:]
     full_dir = os.path.join(os.getcwd(), best_model_uri+"/model")
+    print("Importing model into bentoml repository from {}".format(full_dir))
     bento_model = bentoml.mlflow.import_model("xgb-hyperopt", full_dir)
 
 
-def trainer(data_path: str, max_evals: int=1000):
+def trainer(data_path: str, num_trials: int = 10):
     """
     Run hyperparameter optimization on xgboost model."""
 
-    run(data_path, max_evals)
+    run(data_path, num_trials)
 
 if __name__ == "__main__":
     trainer("./processed_data")
